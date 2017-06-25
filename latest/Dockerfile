@@ -5,7 +5,6 @@ RUN mkdir -p /usr/local/bin/composer
 WORKDIR /usr/local/bin/composer
 
 RUN /usr/local/bin/php -r "readfile('https://getcomposer.org/installer');" | /usr/local/bin/php
-RUN /usr/local/bin/php composer.phar update
 ENV PATH $PATH:/usr/local/bin:/usr/local/bin/composer
 
 # installing some composer packages
