@@ -1,6 +1,15 @@
-FROM php-zendserver:latest
+FROM php:7.1.6-apache
 
-VOLUME /var/www/html
+# installing some composer
+RUN mkdir -p /usr/local/bin/composer
+WORKDIR /usr/local/bin/composer
+
+RUN /usr/local/bin/php -r "readfile('https://getcomposer.org/installer');" | /usr/local/bin/php
+RUN /usr/local/bin/php composer.phar update
+ENV PATH $PATH:/usr/local/bin:/usr/local/bin/composer
 
 # installing some composer packages
-RUN /usr/local/zend/bin/php /usr/local/zs-init/composer.phar create-project ec-cube/ec-cube ec-cube "^3.0"
+WORKDIR /var/www/html
+RUN /usr/local/bin/php /usr/local/bin/composer/composer.phar create-project ec-cube/ec-cube ec-cube "^3.0"
+
+VOLUME /var/www/html
