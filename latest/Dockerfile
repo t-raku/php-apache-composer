@@ -1,9 +1,12 @@
 FROM php:7.1.6-apache
 
-RUN docker-php-source extract \
-    && docker-php-ext-configure zip --with-zlib-dir=/usr/src/php/ext/zlib \
-    && docker-php-ext-install -j$(nproc) zip \
-&& docker-php-source delete
+# RUN docker-php-source extract \
+#     && docker-php-ext-configure zip --with-zlib-dir=/usr/src/php/ext/zlib \
+#     && docker-php-ext-install -j$(nproc) zip \
+# && docker-php-source delete
+
+RUN docker-php-ext-configure zip --with-zlib-dir=/usr/bin/php/ext/zlib \
+&& docker-php-ext-install -j$(nproc) zip
 
 # installing some composer
 RUN mkdir -p /usr/local/bin/composer
