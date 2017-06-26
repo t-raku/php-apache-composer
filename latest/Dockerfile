@@ -5,7 +5,7 @@ FROM php:7.1.6-apache
 #     && docker-php-ext-install -j$(nproc) zip \
 # && docker-php-source delete
 
-RUN docker-php-ext-configure zip --with-libzip-dir=/usr/bin/libzip \
+RUN docker-php-ext-configure zip --with-libzip-dir=/usr/bin \
 && docker-php-ext-install -j$(nproc) zip
 
 # installing some composer
