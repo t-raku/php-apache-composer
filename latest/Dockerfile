@@ -1,5 +1,7 @@
 FROM php:7.1.6-apache
 
+RUN docker-php-ext-install -j$(nproc) zip
+
 # installing some composer
 RUN mkdir -p /usr/local/bin/composer
 WORKDIR /usr/local/bin/composer
