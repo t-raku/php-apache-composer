@@ -1,7 +1,7 @@
 FROM php:7.1.6-apache
 
 RUN docker-php-source extract \
-    && docker-php-ext-configure zip --with-zlib-dir=/var/lib/dpkg/info
+    && docker-php-ext-configure zip --with-zlib-dir=/var/lib/dpkg/info \
     && docker-php-ext-install -j$(nproc) zip \
 && docker-php-source delete
 
