@@ -10,13 +10,21 @@ FROM php:7.1.6-apache
 
 # RUN docker-php-ext-enable zip
 
-RUN docker-php-source extract \
-    && docker-php-ext-install -j$(nproc) libzip \
-&& docker-php-source delete
+# RUN docker-php-source extract \
+#     && docker-php-ext-install -j$(nproc) libzip \
+# && docker-php-source delete
 
 # RUN docker-php-source extract \
 #     && docker-php-ext-enable zip \
 # && docker-php-source delete
+
+RUN curl -fsSL 'http://hg.nih.at/libzip/archive/tip.tar.gz' -o libzip.tar.gz \
+    && mkdir -p /tmp/libzip \
+    && tar -xf libzip.tar.gz -C /tmp/libzip --strip-components=1 \
+    && rm libzip.tar.gz \
+    && docker-php-ext-configure /tmp/libzip --enable-libzip \
+    && docker-php-ext-install /tmp/libzip \
+    && rm -r /tmp/libzip
 
 # installing some composer
 RUN mkdir -p /usr/local/bin/composer
