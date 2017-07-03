@@ -26,8 +26,13 @@ FROM php:7.1.6-apache
 #     && docker-php-ext-install /tmp/libzip \
 #     && rm -r /tmp/libzip
 
-# update all package
-RUN yum update
+# installing zlib
+RUN mkdir -p /usr/local/bin/zlib
+WORKDIR /usr/local/bin/zlib
+RUN curl -fsSL 'https://zlib.net/zlib-1.2.11.tar.gz' -o zlib.tar.gz \
+    && tar zxvf zlib.tar.gz \
+    && cd zlib-1.2.11 \
+    && ./configure && make && install
 
 # installing libzip
 RUN mkdir -p /usr/local/bin/libzip
