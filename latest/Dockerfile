@@ -31,6 +31,7 @@ RUN mkdir -p /usr/local/bin/libzip
 WORKDIR /usr/local/bin/libzip
 RUN curl -fsSL 'https://nih.at/libzip/libzip-1.2.0.tar.gz' -o libzip.tar.gz \
     && tar zxvf libzip.tar.gz \
+    && cd libzip-1.2.0 \
     && ./configure && make && install
 
 # installing composer
