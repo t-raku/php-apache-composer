@@ -26,6 +26,9 @@ FROM php:7.1.6-apache
 #     && docker-php-ext-install /tmp/libzip \
 #     && rm -r /tmp/libzip
 
+# update all package
+RUN yum update
+
 # installing libzip
 RUN mkdir -p /usr/local/bin/libzip
 WORKDIR /usr/local/bin/libzip
