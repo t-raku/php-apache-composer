@@ -18,22 +18,29 @@ FROM php:7.1.6-apache
 #     && docker-php-ext-enable zip \
 # && docker-php-source delete
 
-RUN curl -fsSL 'http://hg.nih.at/libzip/archive/tip.tar.gz' -o libzip.tar.gz \
-    && mkdir -p /tmp/libzip \
-    && tar -xf libzip.tar.gz -C /tmp/libzip --strip-components=1 \
-    && rm libzip.tar.gz \
-    && docker-php-ext-configure /tmp/libzip --enable-libzip \
-    && docker-php-ext-install /tmp/libzip \
-    && rm -r /tmp/libzip
+# RUN curl -fsSL 'http://hg.nih.at/libzip/archive/tip.tar.gz' -o libzip.tar.gz \
+#     && mkdir -p /tmp/libzip \
+#     && tar -xf libzip.tar.gz -C /tmp/libzip --strip-components=1 \
+#     && rm libzip.tar.gz \
+#     && docker-php-ext-configure /tmp/libzip --enable-libzip \
+#     && docker-php-ext-install /tmp/libzip \
+#     && rm -r /tmp/libzip
 
-# installing some composer
+# installing libzip
+RUN mkdir -p /usr/local/bin/libzip
+WORKDIR /usr/local/bin/libzip
+RUN curl -fsSL 'https://nih.at/libzip/libzip-1.2.0.tar.gz' -o libzip.tar.gz \
+    && tar zxvf libzip.tar.gz \
+    && ./configure && make && install
+
+# installing composer
 RUN mkdir -p /usr/local/bin/composer
 WORKDIR /usr/local/bin/composer
-
 RUN /usr/local/bin/php -r "readfile('https://getcomposer.org/installer');" | /usr/local/bin/php
 ENV PATH $PATH:/usr/local/bin:/usr/local/bin/composer
 
-# installing some composer packages
+# set workdir
 WORKDIR /var/www/html
 
+# set volume
 VOLUME /var/www/html
